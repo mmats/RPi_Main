@@ -1,10 +1,3 @@
-/*
- * main.cpp
- *
- *  Created on: 06.10.2013
- *      Author: mats
- */
-
 #include <Disp.h>
 #include <GPIO.h>
 
