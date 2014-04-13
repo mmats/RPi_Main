@@ -31,6 +31,8 @@ int main()
 		led2->setValue( button2->getValue() );
 		led3->setValue( button3->getValue() );
 
+		pvc160101->process();
+
 		msleep(300);
 
 		if( ctrl_c_pressed )
