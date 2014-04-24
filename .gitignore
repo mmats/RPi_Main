@@ -1,5 +1,10 @@
+# Files
+.cproject
+.project
+
 # Directories
 /Debug
+/.settings
 
 # Compiled Object files
 *.slo
@@ -22,3 +27,11 @@
 *.exe
 *.out
 *.app
+/Debug
+/Debug
+/Debug
+/Debug
+/Debug
+/Debug
+/Debug
+/Debug
