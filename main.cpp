@@ -23,7 +23,7 @@ int main()
 	GPIO* button1 = new GPIO(17, IN);
 	GPIO* button2 = new GPIO(27, IN);
 	GPIO* button3 = new GPIO(22, IN);
-	Disp* pvc160101 = new Disp();
+	Disp* lcd = new Disp();
 
 	while(1)
 	{
@@ -31,7 +31,7 @@ int main()
 		led2->setValue( button2->getValue() );
 		led3->setValue( button3->getValue() );
 
-		pvc160101->process();
+		lcd->process();
 
 		msleep(300);
 
@@ -39,7 +39,7 @@ int main()
 			break;
 	}
 
-	delete pvc160101;
+	delete lcd;
 	delete led1; delete led2; delete led3;
 	delete button1; delete button2; delete button3;
 }
