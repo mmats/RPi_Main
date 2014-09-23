@@ -23,7 +23,12 @@ int main()
 	GPIO* button1 = new GPIO(17, IN);
 	GPIO* button2 = new GPIO(27, IN);
 	GPIO* button3 = new GPIO(22, IN);
-	Disp* lcd = new Disp();
+
+	int p[] = {14,15,18,11,23,24,9,25,8,7,10};
+	Disp* lcd = new Disp( p );
+
+	unsigned char textLine1[] = "0123456789ABCDEF";
+	bool firstrun=true;
 
 	while(1)
 	{
@@ -32,8 +37,12 @@ int main()
 		led3->setValue( button3->getValue() );
 
 		lcd->process();
-
-		msleep(300);
+		if( lcd->disp_state==lcd->WAITING  && lcd->disp_job==lcd->no_job && firstrun==true )
+		{
+			lcd->writeText( textLine1, 1 );
+			lcd->writeText( textLine1, 2 );
+			firstrun = false;
+		}
 
 		if( ctrl_c_pressed )
 			break;
