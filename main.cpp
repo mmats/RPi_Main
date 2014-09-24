@@ -23,9 +23,7 @@ int main()
 	GPIO* button1 = new GPIO(17, IN);
 	GPIO* button2 = new GPIO(27, IN);
 	GPIO* button3 = new GPIO(22, IN);
-
-	int p[] = {14,15,18,11,23,24,9,25,8,7,10};
-	Disp* lcd = new Disp( p );
+	Disp* lcd = new Disp{14,15,18,11,23,24,9,25,8,7,10};
 
 	unsigned char textLine1[] = "0123456789ABCDEF";
 
