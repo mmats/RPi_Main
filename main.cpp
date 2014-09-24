@@ -28,7 +28,6 @@ int main()
 	Disp* lcd = new Disp( p );
 
 	unsigned char textLine1[] = "0123456789ABCDEF";
-	bool firstrun=true;
 
 	while(1)
 	{
@@ -37,11 +36,10 @@ int main()
 		led3->setValue( button3->getValue() );
 
 		lcd->process();
-		if( lcd->disp_state==lcd->WAITING  && lcd->disp_job==lcd->no_job && firstrun==true )
+		if( lcd->disp_job==lcd->no_job )
 		{
 			lcd->writeText( textLine1, 1 );
 			lcd->writeText( textLine1, 2 );
-			firstrun = false;
 		}
 
 		if( ctrl_c_pressed )
