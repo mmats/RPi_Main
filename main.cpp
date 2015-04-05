@@ -21,9 +21,9 @@ int main()
 	GPIO* led1 = new GPIO(4, OUT);
 	GPIO* led2 = new GPIO(3, OUT);
 	GPIO* led3 = new GPIO(2, OUT);
-	GPIO* button1 = new GPIO(17, IN);
-	GPIO* button2 = new GPIO(27, IN);
-	GPIO* button3 = new GPIO(22, IN);
+	GPIO* button1 = new GPIO(17, IN, 0.5);
+	GPIO* button2 = new GPIO(27, IN, 0.5);
+	GPIO* button3 = new GPIO(22, IN, 0.5);
 	Disp* lcd = new Disp{14,15,18,11,23,24,9,25,8,7,10};
 	IRadio* rstream = new IRadio();
 
@@ -34,15 +34,14 @@ int main()
 	while(1)
 	{
 		led1->setValue( button1->getValue() );
-		if( !button1->getValue() )
-			rstream->decreaseStreamNr();
-
 		led2->setValue( button2->getValue() );
-		if( !button2->getValue() )
-			rstream->stopStream();
-
 		led3->setValue( button3->getValue() );
-		if( !button3->getValue() )
+
+		if( !button1->getDebouncedValue() )
+			rstream->decreaseStreamNr();
+		if( !button2->getDebouncedValue() )
+			rstream->stopStream();
+		if( !button3->getDebouncedValue() )
 			rstream->increaseStreamNr();
 
 		lcd->process();
