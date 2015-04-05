@@ -1,5 +1,6 @@
 #include <Disp.h>
 #include <GPIO.h>
+#include <IRadio.h>
 
 #include <iostream>
 #include <unistd.h>
@@ -24,14 +25,25 @@ int main()
 	GPIO* button2 = new GPIO(27, IN);
 	GPIO* button3 = new GPIO(22, IN);
 	Disp* lcd = new Disp{14,15,18,11,23,24,9,25,8,7,10};
+	IRadio* rstream = new IRadio();
 
 	unsigned char textLine1[] = "0123456789ABCDEF";
+
+	rstream->startStream();
 
 	while(1)
 	{
 		led1->setValue( button1->getValue() );
+		if( !button1->getValue() )
+			rstream->decreaseStreamNr();
+
 		led2->setValue( button2->getValue() );
+		if( !button2->getValue() )
+			rstream->stopStream();
+
 		led3->setValue( button3->getValue() );
+		if( !button3->getValue() )
+			rstream->increaseStreamNr();
 
 		lcd->process();
 		if( lcd->disp_job==lcd->no_job )
@@ -47,6 +59,7 @@ int main()
 	delete lcd;
 	delete led1; delete led2; delete led3;
 	delete button1; delete button2; delete button3;
+	delete rstream;
 }
 
 void msleep( unsigned milisec )
