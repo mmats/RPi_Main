@@ -5,6 +5,8 @@
 #include <iostream>
 #include <unistd.h>
 #include <signal.h>
+#include <sstream>
+#include <string>
 
 // FUNCTION PROTOTYPING
 void msleep( unsigned milisec );
@@ -21,14 +23,15 @@ int main()
 	GPIO* led1 = new GPIO(4, OUT);
 	GPIO* led2 = new GPIO(3, OUT);
 	GPIO* led3 = new GPIO(2, OUT);
+
 	GPIO* button1 = new GPIO(17, IN, 0.5);
 	GPIO* button2 = new GPIO(27, IN, 0.5);
 	GPIO* button3 = new GPIO(22, IN, 0.5);
+
 	Disp* lcd = new Disp{14,15,18,11,23,24,9,25,8,7,10};
+	std::string str;
+
 	IRadio* rstream = new IRadio();
-
-	unsigned char textLine1[] = "0123456789ABCDEF";
-
 	rstream->startStream();
 
 	while(1)
@@ -47,8 +50,11 @@ int main()
 		lcd->process();
 		if( lcd->disp_job==lcd->no_job )
 		{
-			lcd->writeText( textLine1, 1 );
-			lcd->writeText( textLine1, 2 );
+			str = rstream->getStreamName();
+			lcd->writeText( &str, 1 );
+
+			str = rstream->getInterpret();
+			lcd->writeText( &str, 2 );
 		}
 
 		if( ctrl_c_pressed )
