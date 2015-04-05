@@ -34,11 +34,34 @@ int main()
 	IRadio* rstream = new IRadio();
 	rstream->startStream();
 
+	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::duration<double> elapsed_time;
+	start = std::chrono::system_clock::now();
+
 	while(1)
 	{
 		led1->setValue( button1->getValue() );
 		led2->setValue( button2->getValue() );
 		led3->setValue( button3->getValue() );
+
+		end = std::chrono::system_clock::now();
+		elapsed_time = end-start;
+		if( elapsed_time.count() >= 15.0 )
+		{
+			start = std::chrono::system_clock::now();
+			rstream->getStreamInfos();
+
+			if( lcd->disp_job==lcd->no_job )
+			{
+				str = rstream->getInterpret();
+				lcd->writeText( &str, 1 );
+
+				str = rstream->getTitle();
+				lcd->writeText( &str, 2 );
+			}
+		}
+
+		lcd->process();
 
 		if( !button1->getDebouncedValue() )
 			rstream->decreaseStreamNr();
@@ -46,16 +69,6 @@ int main()
 			rstream->stopStream();
 		if( !button3->getDebouncedValue() )
 			rstream->increaseStreamNr();
-
-		lcd->process();
-		if( lcd->disp_job==lcd->no_job )
-		{
-			str = rstream->getStreamName();
-			lcd->writeText( &str, 1 );
-
-			str = rstream->getInterpret();
-			lcd->writeText( &str, 2 );
-		}
 
 		if( ctrl_c_pressed )
 			break;
