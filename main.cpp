@@ -53,10 +53,10 @@ int main()
 
 			if( lcd->disp_job==lcd->no_job )
 			{
-				str = rstream->getInterpret();
+				str = rstream->getStreamName();
 				lcd->writeText( &str, 1 );
 
-				str = rstream->getTitle();
+				str = rstream->getInterpret() + " - " + rstream->getTitle();
 				lcd->writeText( &str, 2 );
 			}
 		}
