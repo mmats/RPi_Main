@@ -29,14 +29,14 @@ int main()
 	GPIO* button3 = new GPIO(22, IN, 0.5);
 
 	Disp* lcd = new Disp{14,15,18,11,23,24,9,25,8,7,10};
-	std::string str;
+	std::string line1{}, line2{}, str{};
 
 	IRadio* rstream = new IRadio();
 	rstream->startStream();
 
-	std::chrono::time_point<std::chrono::system_clock> start, end;
+	std::chrono::time_point<std::chrono::system_clock> start_1, start_2;
 	std::chrono::duration<double> elapsed_time;
-	start = std::chrono::system_clock::now();
+	start_1 = start_2 = std::chrono::system_clock::now();
 
 	while(1)
 	{
@@ -44,20 +44,50 @@ int main()
 		led2->setValue( button2->getValue() );
 		led3->setValue( button3->getValue() );
 
-		end = std::chrono::system_clock::now();
-		elapsed_time = end-start;
-		if( elapsed_time.count() >= 15.0 )
+		elapsed_time = std::chrono::system_clock::now() - start_1;
+		if( (elapsed_time.count() >= 15.0) || rstream->streamHasChanged() )
 		{
-			start = std::chrono::system_clock::now();
+			start_1 = std::chrono::system_clock::now();
 			rstream->getStreamInfos();
 
+			line1 = "[" + std::to_string(rstream->getStreamNr()) + "] " + rstream->getStreamName() + "   ";
+			line2 = rstream->getInterpret() + " - " + rstream->getTitle()  + "   ";
+		}
+
+		elapsed_time = std::chrono::system_clock::now() - start_2;
+		if( elapsed_time.count() >= 1.0 )
+		{
+			start_2 = std::chrono::system_clock::now();
 			if( lcd->disp_job==lcd->no_job )
 			{
-				str = rstream->getStreamName();
-				lcd->writeText( &str, 1 );
-
-				str = rstream->getInterpret() + " - " + rstream->getTitle();
-				lcd->writeText( &str, 2 );
+				if( !line1.empty() )
+				{
+					if( line1.size()<DISP_LINE_LENGTH+3 )
+					{
+						str = line1.substr(0,DISP_LINE_LENGTH);
+						lcd->writeText( &str, 1 );
+					}
+					else
+					{
+						str = line1.substr(0,DISP_LINE_LENGTH);
+						line1 = line1.substr(1) + line1.at(0);
+						lcd->writeText( &str, 1 );
+					}
+				}
+				if( !line2.empty() )
+				{
+					if( line2.size()<DISP_LINE_LENGTH+3 )
+					{
+						str = line2.substr(0,DISP_LINE_LENGTH);
+						lcd->writeText( &str, 2 );
+					}
+					else
+					{
+						str = line2.substr(0,DISP_LINE_LENGTH);
+						line2 = line2.substr(1) + line2.at(0);
+						lcd->writeText( &str, 2 );
+					}
+				}
 			}
 		}
 
