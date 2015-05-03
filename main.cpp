@@ -34,6 +34,11 @@ int main()
 	IRadio* rstream = new IRadio();
 	rstream->startStream();
 
+	std::string welcomeMessageLine1 = "  Welcome to:   ";
+	std::string welcomeMessageLine2 = "  Mats' iRadio  ";
+	line1 = welcomeMessageLine1;
+	line2 = welcomeMessageLine2;
+
 	std::chrono::time_point<std::chrono::system_clock> start_1, start_2;
 	std::chrono::duration<double> elapsed_time;
 	start_1 = start_2 = std::chrono::system_clock::now();
@@ -48,12 +53,20 @@ int main()
 		if( elapsed_time.count() >= 15.0 )
 		{
 			start_1 = std::chrono::system_clock::now();
-			rstream->getStreamInfos();
 
-			if( rstream->streamHasChanged() )
+			if( !rstream->streamIsRunning() )
 			{
-				line1 = "[" + std::to_string(rstream->getStreamNr()) + "] " + rstream->getStreamName() + "   ";
-				line2 = rstream->getInterpret() + " - " + rstream->getTitle()  + "   ";
+				line1 = welcomeMessageLine1;
+				line2 = welcomeMessageLine2;
+			}
+			else
+			{
+				rstream->getStreamInfos();
+				if( rstream->streamHasChanged() )
+				{
+					line1 = "[" + std::to_string(rstream->getStreamNr()) + "] " + rstream->getStreamName() + "   ";
+					line2 = rstream->getInterpret() + " - " + rstream->getTitle()  + "   ";
+				}
 			}
 		}
 
