@@ -112,7 +112,7 @@ int main()
 		if( !button1->getDebouncedValue() )
 			rstream->decreaseStreamNr();
 		if( !button2->getDebouncedValue() )
-			rstream->stopStream();
+			rstream->stopOrResumeStream();
 		if( !button3->getDebouncedValue() )
 			rstream->increaseStreamNr();
 
