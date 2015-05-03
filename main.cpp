@@ -66,6 +66,8 @@ int main()
 				{
 					line1 = "[" + std::to_string(rstream->getStreamNr()) + "] " + rstream->getStreamName() + "   ";
 					line2 = rstream->getInterpret() + " - " + rstream->getTitle()  + "   ";
+
+					std::cout << "[" << rstream->getStreamNr() << "] " <<  rstream->getStreamName() << ", " << rstream->getInterpret() << " - " << rstream->getTitle() << "\n";
 				}
 			}
 		}
@@ -110,11 +112,11 @@ int main()
 		lcd->process();
 
 		if( !button1->getDebouncedValue() )
-			rstream->decreaseStreamNr();
+			rstream->increaseStreamNr();
 		if( !button2->getDebouncedValue() )
 			rstream->stopOrResumeStream();
 		if( !button3->getDebouncedValue() )
-			rstream->increaseStreamNr();
+			rstream->decreaseStreamNr();
 
 		if( ctrl_c_pressed )
 			break;
