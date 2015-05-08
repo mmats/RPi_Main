@@ -50,7 +50,7 @@ int main()
 		led3->setValue( button3->getValue() );
 
 		elapsed_time = std::chrono::system_clock::now() - start_1;
-		if( elapsed_time.count() >= 15.0 )
+		if( elapsed_time.count() >= 20.0 )
 		{
 			start_1 = std::chrono::system_clock::now();
 
@@ -67,7 +67,7 @@ int main()
 					line1 = "[" + std::to_string(rstream->getStreamNr()) + "] " + rstream->getStreamName() + "   ";
 					line2 = rstream->getInterpret() + " - " + rstream->getTitle()  + "   ";
 
-					std::cout << "[" << rstream->getStreamNr() << "] " <<  rstream->getStreamName() << ", " << rstream->getInterpret() << " - " << rstream->getTitle() << "\n";
+					//std::cout << "[" << rstream->getStreamNr() << "] " <<  rstream->getStreamName() << ", " << rstream->getInterpret() << " - " << rstream->getTitle() << "\n";
 				}
 			}
 		}
