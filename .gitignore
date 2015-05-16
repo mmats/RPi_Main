@@ -1,6 +1,5 @@
 # Files
-.cproject
-.project
+.directory
 
 # Directories
 /Debug
@@ -27,11 +26,4 @@
 *.exe
 *.out
 *.app
-/Debug
-/Debug
-/Debug
-/Debug
-/Debug
-/Debug
-/Debug
-/Debug
+
