@@ -1,6 +1,7 @@
 #include <Disp.h>
 #include <GPIO.h>
 #include <IRadio.h>
+#include <Config.h>
 
 #include <iostream>
 #include <unistd.h>
@@ -34,14 +35,23 @@ int main()
 	IRadio* rstream = new IRadio();
 	rstream->startStream();
 
-	std::string welcomeMessageLine1 = "  Welcome to:   ";
-	std::string welcomeMessageLine2 = "  Mats' iRadio  ";
+	Config* c = new Config("RPi_Config");
+
+	std::string welcomeMessageLine1 = c->translate2String("welcomeMessageLine1");
+	std::string welcomeMessageLine2 = c->translate2String("welcomeMessageLine2");
+
 	line1 = welcomeMessageLine1;
 	line2 = welcomeMessageLine2;
 
 	std::chrono::time_point<std::chrono::system_clock> start_1, start_2;
 	std::chrono::duration<double> elapsed_time;
 	start_1 = start_2 = std::chrono::system_clock::now();
+
+	/**********************************/
+    // int x  = c->translate2Int("x");
+    // double x = c->translate2Double("x");
+	// std::string x  = c->translate2String("x");
+	/**********************************/
 
 	while(1)
 	{

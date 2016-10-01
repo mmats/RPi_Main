@@ -3,6 +3,10 @@
 	<name>RPi_Main</name>
 	<comment></comment>
 	<projects>
+		<project>RPi_Config_Lib</project>
+		<project>RPi_GPIO_Lib</project>
+		<project>RPi_Display_Lib</project>
+		<project>RPi_InternetRadio_Lib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
